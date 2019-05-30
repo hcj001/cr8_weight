@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ohoyee.weight.mapper.IWeightItemMapper" >
+
+  <sql id="columns">
+      w.ItemNM,
+      w.BdNum,
+      w.ProjectID,
+      w.BatchNo,
+      w.WagAbbProvince,
+      w.WagonNumber,
+      w.InfoCode,
+      w.InfoName,
+      w.InfoModel,
+      w.InfoUnit,
+      w.SupplierName,
+      w.GrossWeight,
+      w.TareWeight,
+      w.Discount,
+      w.NetWeight,
+      w.InTime,
+      w.IsOut,
+      w.OutTime,
+      w.IsBd,
+      w.Maker,
+      w.Remark
+  </sql>
+    <!--查询将要推送的信息-->
+  <select id="getWeightItemList" resultType="com.ohoyee.weight.entity.WeightItem">
+      select * from (select <include refid="columns" />, ROW_NUMBER() OVER(Order by BatchNo asc ) AS RowId from E_WeightItem w where w.BatchNo &gt;= #{start}) as b where RowId between 1 and #{offset}
+  </select>
+    <select id="getWeightItemList2" resultType="com.ohoyee.weight.entity.WeightItem">
+        select <include refid="columns" /> from E_WeightItem w where BatchNo in ${inStr}
+    </select>
+</mapper>

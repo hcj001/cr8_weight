@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ohoyee.weight.mapper2.IWeightItemMapper2" >
+
+  <sql id="columns">
+      w.ItemNM,
+      w.BdNum,
+      w.ProjectID,
+      w.BatchNo,
+      w.WagAbbProvince,
+      w.WagonNumber,
+      w.InfoCode,
+      w.InfoName,
+      w.InfoModel,
+      w.InfoUnit,
+      w.SupplierName,
+      w.GrossWeight,
+      w.TareWeight,
+      w.Discount,
+      w.NetWeight,
+      w.InTime,
+      w.IsOut,
+      w.OutTime,
+      w.IsBd,
+      w.Maker,
+      w.Remark
+  </sql>
+  <select id="getBatchNoStart" resultType="String">
+    select BatchNo from E_Pointer
+  </select>
+    <!--查询失败的记录-->
+  <select id="getFaildBatchNoList" resultType="String">
+    select BatchNo from E_Faild f where time &lt;=4
+  </select>
+  <!--批量保存未推送成功的BatchNo-->
+  <insert id="saveErrorBatchNo">
+      insert into E_Faild(BatchNo) values ${values}
+  </insert>
+    <update id="updateBatchNoStart">
+        update E_Pointer set BatchNo = #{BatchNo}
+    </update>
+    <delete id="deleteFaildBatchNo">
+        delete from E_Faild where BatchNo in ${BatchNos}
+    </delete>
+    <update id="updateFaildTime">
+        update E_Faild set time = time+1 where BatchNo = #{BatchNo}
+    </update>
+</mapper>
