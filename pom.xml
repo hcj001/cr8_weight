@@ -51,7 +51,11 @@
             <artifactId>druid</artifactId>
             <version>1.1.9</version>
         </dependency>
-
+        <!--lombok自动构建代码-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
